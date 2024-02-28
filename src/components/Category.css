@@ -1,0 +1,50 @@
+/* Category.css */
+
+/* Styles for the overall container */
+.category-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Styles for the heading */
+  .category-container h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  /* Styles for each service item */
+  .service-item {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styles for service names */
+  .service-item h3 {
+    color: #007bff;
+  }
+  
+  /* Styles for service descriptions */
+  .service-item p {
+    color: #555;
+  }
+  
+  /* Styles for the book now button */
+  .service-item button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .service-item button:hover {
+    background-color: #218838;
+  }
+  
+  /* Add more styles as needed */
+  
