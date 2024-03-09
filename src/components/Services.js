@@ -5,18 +5,23 @@ import './Services.css';
 const Services = ({ serviceData }) => {
   return (
     <div className="services-container">
-      <h1>Available Services</h1>
+      <h3>Hire someone else to run your errands</h3>
+
+      <div className="services-button-container">
 
       {serviceData.map((category, index) => (
         <div key={index}>
           <h2>
-            <Link to={`/services/${category.category}`}>{category.category}</Link>
+            <p>{category.category}</p>
+            <Link to={`/services/${category.category}`}> {category.icon && (
+            <img src={category.icon} alt={`${category.category} Image`} />
+          )} </Link>
           </h2>
-          {category.image && (
-            <img src={category.image} alt={`${category.category} Image`} style={{ maxWidth: '100%', height: 'auto' }} />
-          )}
+          
         </div>
       ))}
+
+      </div>
     </div>
   );
 };

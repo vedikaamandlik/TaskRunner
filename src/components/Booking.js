@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import './Booking.css';
+import firebase, { firestore } from '../Firebase'; 
+import { collection,addDoc } from 'firebase/firestore';
+//import RazorpayPaymentButton from './RazorpayPaymentButton';
 
 const Booking = ({ serviceData }) => {
   const { serviceName } = useParams();
-  const selectedService = serviceData
-    .flatMap(category => category.services)
-    .find(service => service.name === serviceName);
+  const result = serviceData
+  .flatMap(category => category.services.map(service => ({ category: category.name, service })))
+  .find(item => item.service.name === serviceName);
+
+  const selectedService = result ? result.service : null;
+  const category = result ? result.category : null;
 
   const [formData, setFormData] = useState(
-    // Initialize form fields based on bookingForm
     selectedService
       ? selectedService.bookingForm.reduce((initialData, field) => {
           initialData[field.name] = '';
@@ -18,7 +23,27 @@ const Booking = ({ serviceData }) => {
       : {}
   );
 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
+      setUser(authUser);
+
+      if (authUser) {
+        const userRef = firestore.collection('users').doc(authUser.uid);
+        userRef.get().then((doc) => {
+          if (doc.exists) {
+            setUser((prevUser) => ({ ...prevUser, username: doc.data().username, uid: doc.data().uid }));
+          }
+        });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+  
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,55 +52,70 @@ const Booking = ({ serviceData }) => {
       [name]: value,
     });
 
-    // Validate the field on change
     validateField(name, value);
   };
 
   const validateField = (name, value) => {
-    // Add strict validation logic based on specific criteria
     let error = '';
 
     switch (name) {
       case 'email':
-        // Validate email format strictly
         if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value)) {
           error = 'Invalid email format';
         }
         break;
-      // Add more cases for other fields with strict validation
       default:
         break;
     }
 
-    // Update errors state
     setErrors({
       ...errors,
       [name]: error,
     });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all fields before submission
     validateAllFields();
 
-    // Check if there are no errors
+    const timeDue = document.getElementById("timeDue").value;
+    const time = new Date().toLocaleString();
+    //console.log(uid);
+
     if (Object.values(errors).every((error) => !error)) {
-      // Add logic to handle form submission (e.g., booking request)
-      console.log('Form submitted:', formData);
-      // You can add your booking logic here
+      try {
+        const formattedData = {
+          category: "eh",
+          service: serviceName,
+          //formData: { ...formData },
+          timeBooked: time,
+          timeDue: timeDue,
+          status: "pending",
+          userId: user.uid,
+          runnerId: " ",
+        };
+  
+        const tasksRef = firestore.collection('tasks');
+        await tasksRef.add(formattedData);
+        console.log('Form submitted successfully:', formData);
+        setSuccessMessage("Form Submitted");
+      } catch (error) {
+        console.error('Error adding document: ', error);
+      }
     } else {
       console.log('Form has errors. Please correct them.');
     }
   };
 
   const validateAllFields = () => {
-    // Validate all fields and update errors state
     Object.keys(formData).forEach((name) => {
       validateField(name, formData[name]);
     });
+
+
   };
+
 
   return (
     <div>
@@ -83,6 +123,7 @@ const Booking = ({ serviceData }) => {
       <form onSubmit={handleFormSubmit}>
         {selectedService &&
           selectedService.bookingForm.map((field, index) => (
+            <>
             <div key={index}>
               <label>
                 {field.label}:
@@ -99,9 +140,14 @@ const Booking = ({ serviceData }) => {
               )}
               <br />
             </div>
+            </>
           ))}
-        <button type="submit">Submit</button>
-      </form>
+          <label>Time Due:</label>
+            <input type="time" name="timeDue" id="timeDue" required></input>
+          {successMessage && <div className="success-message">{successMessage}</div>}
+          {/* <RazorpayPaymentButton /> <br></br> */}
+        <button className="booking-button" type="submit" >Submit</button>
+      </form> 
     </div>
   );
 };

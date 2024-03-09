@@ -197,7 +197,7 @@ const SignUp = () => {
         </div>
         {error && <div className="error-message">{error}</div>}
         {successMessage && <div className="success-message">{successMessage}</div>}
-        <button type="submit" onClick={handleSignUp}>Sign Up</button>
+        <button className="signup-button" type="submit" onClick={handleSignUp}>Sign Up</button>
       
       <div className="login-link">
         Already have an account? <Link to="/login">Log In!</Link>

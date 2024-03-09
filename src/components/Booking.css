@@ -26,10 +26,11 @@ input {
 }
 
 /* Styles for the submit button */
-button {
+.booking-button {
   background-color: #007bff;
   color: #fff;
   border: none;
+  border-radius: 20px;
   padding: 10px 15px;
   border-radius: 3px;
   cursor: pointer;
@@ -37,6 +38,10 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+#timeDue {
+  width: 20%;
 }
 
 /* Add more styles as needed */

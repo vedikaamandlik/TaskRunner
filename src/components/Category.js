@@ -7,7 +7,6 @@ const Category = ({ serviceData }) => {
   const { category } = useParams();
   const navigate = useNavigate();
 
-  // Find the selected category from the service data
   const selectedCategory = serviceData.find((cat) => cat.category === category);
 
   if (!selectedCategory) {
@@ -16,10 +15,8 @@ const Category = ({ serviceData }) => {
 
   const handleBookNowClick = (serviceName) => {
     if (firebase.auth().currentUser != null) {
-      // User is logged in, navigate to the booking page with the selected service name
       navigate(`/booking/${serviceName}`);
     } else {
-      // User is not logged in, redirect to the login page
       navigate('/login');
     }
   };
@@ -31,10 +28,9 @@ const Category = ({ serviceData }) => {
         <div key={index} className="service-item">
           <h3>{service.name}</h3>
           <p>
-            {/* Access the description from the service object */}
             Description: {service.description}
           </p>
-          <button onClick={() => handleBookNowClick(service.name)}>Book Now</button>
+          <button className="category-button" onClick={() => handleBookNowClick(service.name)}>Book Now</button>
         </div>
       ))}
     </div>

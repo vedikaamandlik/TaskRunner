@@ -3,9 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth, db, storage } from '../Firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import firebase, { firestore } from '../Firebase';
-import { v4 } from "uuid";
-import './Signup.css';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import './TaskRunnerRegistration.css';
 
 const TaskRunnerRegistration = () => {
   const user = firebase.auth().currentUser;
@@ -16,7 +14,7 @@ const TaskRunnerRegistration = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showFileUpload,setShowFileUpload] =  useState(false)
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
   
   useEffect(() => {
     const fetchUserData = async () => {
@@ -74,13 +72,11 @@ const TaskRunnerRegistration = () => {
         return;
       }
 
-      // Upload Aadhar Card
       const aadharRef = ref(storage, `aadharCard/${user.uid}`);
       await uploadBytes(aadharRef, aadharFile);
 
       const aadharDownloadURL = await getDownloadURL(aadharRef);
 
-      // Similarly, upload PAN Card and Driving License
       const panRef = ref(storage, `panCard/${user.uid}`);
       await uploadBytes(panRef, panFile);
 
@@ -89,16 +85,14 @@ const TaskRunnerRegistration = () => {
       const drivingRef = ref(storage, `drivingLicense/${user.uid}`);
       await uploadBytes(drivingRef, drivingFile);
 
-      // Get download URL for Aadhar Card
       const drivingDownloadURL = await getDownloadURL(drivingRef);
 
       const status = "pending";
       const isActive = false;
 
-      // Update Firestore collection 'runner' with user details and file URLs
       await firestore.collection('runners').doc(user.uid).set({
         name: userData.name,
-        username: userData.username, // Replace with the actual user details you want to save
+        username: userData.username, 
         gender: userData.gender,
         contact: userData.contact,
         email: userData.email,

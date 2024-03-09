@@ -1,0 +1,83 @@
+/* TaskRunnerRegistration.css */
+
+/* Styles for the overall container */
+.registration-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Styles for the form */
+  .registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color : #000;
+  }
+
+  .registration-container label {
+    color : #000;
+  }
+  
+  /* Styles for the form heading */
+  .registration-form h2 {
+    color: #333;
+  }
+  
+  /* Styles for form groups */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Styles for file input */
+  .form-group input[type="file"] {
+    margin-top: 5px;
+  }
+  
+  /* Styles for error messages */
+  .error-message {
+    color: #ff0000;
+    margin-top: 10px;
+  }
+  
+  /* Styles for success messages */
+  .success-message {
+    color: #008000;
+    margin-top: 10px;
+  }
+  
+  /* Styles for the submit button */
+  .registration-form button {
+    background-color: #fd0061;
+    color: #fff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  /* Styles for the submit button on hover */
+  .registration-form button:hover {
+    background-color: #af0058;
+  }
+  
+  /* Styles for the login link */
+  .login-link {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #000;
+  }
+  
+  .login-link a {
+    color: #ff4b90;
+    text-decoration: none;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Add more styles as needed */
+  

@@ -1,0 +1,27 @@
+
+.about-us-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Styles for the main heading */
+  .about-us-container h1 {
+    color: #333;
+  }
+  
+  /* Styles for the paragraphs */
+  .about-us-container p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  /* Styles for the subheadings */
+  .about-us-container h2 {
+    color: #ff4b90;
+    margin-top: 20px;
+  }
+  
+  /* Add more styles as needed */
+  

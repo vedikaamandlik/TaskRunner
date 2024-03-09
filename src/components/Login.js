@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import firebase from '../Firebase';
+import firebase, { firestore } from '../Firebase';
 import './Login.css';
 
 const Login = () => {
@@ -8,6 +8,9 @@ const Login = () => {
   const passwordRef = useRef(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const [profileData, setProfileData] = useState(null);
+  const user = firebase.auth().currentUser;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -35,8 +38,34 @@ const Login = () => {
       // Success, user is logged in.
       console.log('User logged in successfully!', userCredential.user);
 
-      // Redirect the user to the home page after successful login
-      navigate('/');
+      const fetchProfileDataPromise = (uid) => {
+        return new Promise((resolve, reject) => {
+          firestore.collection('users').doc(uid).get()
+            .then(userDoc => {
+                resolve(userDoc.data());
+            })
+            .catch(error => {
+              reject(new Error('Error fetching profile data: ' + error.message));
+            });
+        });
+      };
+      if (userCredential.user) {
+        // Fetch profile data asynchronously
+        fetchProfileDataPromise(userCredential.user.uid).then(res => {
+          if (res.email === "vedikaa@gmail.com") {
+            navigate('/admin');
+          } else if (res.role == "user"){
+            navigate('/');
+          }
+          else {
+            navigate('/runner-home');
+          }
+        })
+
+        // Check user role and redirect
+        
+      }
+
     } catch (error) {
       switch (error.code) {
         case 'auth/user-not-found':
@@ -70,7 +99,7 @@ const Login = () => {
         </div>
         </div>
         {error && <div className="error-message">{error}</div>}
-        <button type="submit" onClick={handleLogin}>Log In</button>
+        <button className="login-button" type="submit" onClick={handleLogin}>Log In</button>
       <div className="signup-link">
         Don't have an account? <Link to="/signup">Sign Up Now!</Link>
       </div>

@@ -12,11 +12,10 @@ const Navbar = () => {
       setUser(authUser);
 
       if (authUser) {
-        // Fetch additional user information from Firestore
         const userRef = firestore.collection('users').doc(authUser.uid);
         userRef.get().then((doc) => {
           if (doc.exists) {
-            setUser((prevUser) => ({ ...prevUser, username: doc.data().username }));
+            setUser((prevUser) => ({ ...prevUser, username: doc.data().username, role: doc.data().role }));
           }
         });
       }
@@ -24,6 +23,10 @@ const Navbar = () => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    console.log("User:", user);
+  }, [user]);
 
   const handleLogout = () => {
     firebase.auth().signOut()
@@ -39,22 +42,32 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to="/services">Services</Link>
-        <Link to="/services">Services</Link>
+        <Link to="/"><img className="logo" src="/images/logo-transparent.png" alt="logo"></img></Link>
       </div>
       <div className='navbar-right'>
         <Link to="/">Home</Link>
+        <Link to="/services">Services</Link>
+        <Link to="/contact">Contact Us</Link>
+        <Link to="/about">About Us</Link>  
         <div className="navbar-auth">
           {user ? (
-            // Show logout button when user is logged in
             <>
-              <Link to={`/profile/${user.username}`}>{user.username}</Link>
-              <Link to={`/runner/${user.username}`}>{user.username}</Link>
-              <Link to="/task-runner-registration">Become a Runner</Link>
+              {console.log("User role:", user.role)}
+              {user.role === "user" &&
+                <>
+                  <Link to={`/profile/${user.username}`}>{user.username}</Link>
+                  <Link to="/task-runner-registration">Become a Runner</Link>
+                </>
+              }
+              {user.role === "runner" &&
+                <Link to={`/runner/${user.username}`}>{user.username}</Link>
+              }
+              {user.username === "vedikaa" &&
+                <Link to="/admin">ADMIN</Link>
+              }
               <button onClick={handleLogout}>Logout</button>
             </>
           ) : (
-            // Show login and signup buttons when user is not logged in
             <>
               <Link to="/login">Login</Link>
             </>

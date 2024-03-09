@@ -1,0 +1,62 @@
+/* Footer.css */
+
+/* Styles for the overall footer container */
+.site-footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0; /* Reduce padding */
+  }
+  
+  /* Styles for the footer content */
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Styles for each footer section */
+  .footer-section {
+    margin-bottom: 10px; /* Reduce margin */
+  }
+  
+  /* Styles for section headings */
+  .footer-section h3 {
+    font-size: 1rem; /* Adjust font size */
+  }
+  
+  /* Styles for contact information */
+  .footer-section p {
+    margin: 0;
+    font-size: 0.8rem; /* Adjust font size */
+  }
+  
+  /* Styles for social links */
+  .social-links {
+    display: flex;
+  }
+  
+  .social-links a {
+    margin-right: 5px; /* Reduce margin */
+  }
+  
+  /* Styles for social media icons */
+  .social-links img {
+    width: 20px; /* Adjust size */
+    height: 20px; /* Adjust size */
+  }
+  
+  /* Styles for the bottom section of the footer */
+  .footer-bottom {
+    text-align: center;
+    margin-top: 10px; /* Reduce margin */
+    background-color: #222;
+    padding: 5px 0; /* Reduce padding */
+  }
+  
+  /* Styles for the copyright text */
+  .footer-bottom p {
+    margin: 0;
+    font-size: 0.7rem; /* Adjust font size */
+  }
+  

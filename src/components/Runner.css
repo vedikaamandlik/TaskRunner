@@ -1,6 +1,6 @@
 .runner-container {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -33,8 +33,15 @@
     padding: 8px 16px;
     margin-right: 8px;
     cursor: pointer;
+    color:#fff;
+    background: #ff4b90;
+    border-radius: 10px;
   }
   
+  .runner-button:hover {
+    background: #af0058;
+  }
+
   .file-display {
     margin-top: 20px;
   }
@@ -45,7 +52,7 @@
   
   .file-display a {
     text-decoration: none;
-    color: #0066cc; 
+    color: #ff4b90; 
   }
 
 .switch {

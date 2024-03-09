@@ -6,7 +6,6 @@ const AdminRunners = () => {
   const [runners, setRunners] = useState([]);
 
   useEffect(() => {
-    // Fetch data from Firestore
     const fetchData = async () => {
       try {
         const runnersCollection = await firestore.collection('runners').get();
@@ -21,12 +20,11 @@ const AdminRunners = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array to ensure the effect runs only once on component mount
+  }, []);
 
   const handleReject = async (runnerId) => {
     try {
       await firestore.collection('runners').doc(runnerId).update({ status: 'rejected' });
-      // Refresh the runners list after updating the status
       const updatedRunnersCollection = await firestore.collection('runners').get();
       const updatedRunnersData = updatedRunnersCollection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setRunners(updatedRunnersData);
@@ -38,7 +36,6 @@ const AdminRunners = () => {
   const handleVerify = async (runnerId) => {
     try {
       await firestore.collection('runners').doc(runnerId).update({ status: 'verified' });
-      // Refresh the runners list after updating the status
       const updatedRunnersCollection = await firestore.collection('runners').get();
       const updatedRunnersData = updatedRunnersCollection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setRunners(updatedRunnersData);
@@ -66,7 +63,7 @@ const AdminRunners = () => {
               <th>PAN Card</th>
               <th>Driving License</th>
               <th>Active</th>
-              {/* Add more table headers as needed */}
+              <th>Categories</th>
             </tr>
           </thead>
           <tbody>
@@ -99,14 +96,18 @@ const AdminRunners = () => {
                     </a>
                   )}
                 </td>
-                <td>
-                  {runner.isActive}
-                </td>
+                {runner.isActive ? <td>Yes</td>:<td>No</td>}
+                {/*<td>
+                  {runner.categories.map((category, index) =>(
+                    <div>
+                      {category}
+                    </div>
+                  ))}
+                  </td>*/}
                 <td>
                   <button onClick={() => handleVerify(runner.id)}>Verify</button>
                   <button onClick={() => handleReject(runner.id)}>Reject</button>
                 </td>
-                {/* Add more table cells as needed */}
               </tr>
             ))}
           </tbody>
